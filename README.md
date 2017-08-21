@@ -3,4 +3,4 @@ newaccount
 adding
 ---
 live at 
-https://github.com/danielcanals2017/test1
+https://danielcanals2017.github.io/test1

@@ -10,6 +10,7 @@ parseFloat(x.value)
 
 x.size = y.size = 10
 
-x.onkeyup = function(ev){
-    console.log('you pressed his', this.key)
+x.onkeyup=y.onkeyup=function(ev){
+    //console.log('you pressed x :',this)
+    z.textContent=parseFloat(x.value)+parseFloat(y.value)
 }

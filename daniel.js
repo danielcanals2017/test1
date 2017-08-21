@@ -1,1 +1,3 @@
-console.js('hello')
+console.js('hello' + Date())
+
+i= 99

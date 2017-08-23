@@ -1,0 +1,13 @@
+
+<html>
+    <head>
+        <script src="https://mathbiol.github.io/cbio/cbio.js"></script>
+    </head>
+    <body>
+        <h2 style="color:blue">daniel</h2>
+        <hr>
+        <input id="x"> + <input id="y"> = <span id="z">...</span>
+        <div id="cancerTypesDiv"></div>
+        <script src='daniel.js'></script>
+    </body>
+</html>

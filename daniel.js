@@ -1,19 +1,15 @@
 console.log('hello' + Date())
 
-lala=999
+lala = 999
 
 // z = x + y
 
-/* 
+/*
+parseFloat(x.value)
 parseFloat(x.value)
 */
-x.defaultValue = 100
-y.defaultValue = 200
 
-z.value = parseFloat(x.value) + parseFloat(y.value)
-
-x.size = y.size = 10
-
+x.size=y.size=10
 
 x.onkeyup=y.onkeyup=function(ev){
     //console.log('you pressed x :',this)
@@ -21,23 +17,62 @@ x.onkeyup=y.onkeyup=function(ev){
 }
 
 listCancers=function(id){
-    if(!id){console.warn('id not defined')
+    if(!id){
+        console.warn('id not defined')
     }else{
-        cbio.get(
-            null,
+        //cbio.get(
+        cbio.getCancerStudies( //see https://github.com/mathbiol/cbio
             function(x){
+                listCancers.dt={study:{}}   // store data? 
                 var div = document.getElementById(id)
-                var h = ''
-                x.forEach(function(xi,i){
-                   if(i==0){
-                       h +='<h2>'+xi+'</h2>'
-                   }else{
-                       h +='<li>'+xi+'</li>'
-                   }
-
-                   //debugger 
+                var h = '<h2 style="color:navy">Cancer Study</h2>'
+                x = x.slice(1).map(function(xi,i){
+                   xi = xi.split(/\t/)
+                   xi = {id:xi[0],name:xi[1],info:xi[2]}
+                   listCancers.dt.study[xi.id]={name:xi.name,info:xi.info}
+                   h +='<li id="'+xi.id+'">'+xi.id+': '+xi.name+'</li>'
+                   return xi                   
                 })
                 div.innerHTML=h
+                // animate listed entries
+                x.forEach(function(xi){
+                    var li = document.getElementById(xi.id)
+                    if(li){
+                        li.onmouseover=function(){
+                            this.style.color='blue'
+                            this.style.backgroundColor='yellow'
+                            this.style.cursor='pointer'
+                        }
+                        li.onmouseleave=function(){
+                            this.style.color='black'
+                            this.style.backgroundColor=null
+                        }
+                        li.onclick=function(){
+                            console.log('clicked on ',li)
+                            var caseList={}
+                            cbio.getCaseLists(li.id,function(cc){
+                                var parms = cc[0].split(/\t/)
+                                var ind = parms[0]
+                                parms = parms.slice(1)
+                                var cl = cc.slice(1).map(function(ci){
+                                    ci = ci.split(/\t/)
+                                    caseList[ci[0]]={}
+                                    parms.forEach(function(p,i){
+                                        //console.log(p)
+                                        caseList[ci[0]][p]=ci[i+1]
+                                    })
+                                })
+                                if(!listCancers.dt.study[li.id].caseList){
+                                    listCancers.dt.study[li.id].caseList={}
+                                }
+                                listCancers.dt.study[li.id].caseList=caseList
+                            })
+                        }
+                    }
+                        
+
+                    4
+                })
                 
             }
         )    
@@ -46,4 +81,17 @@ listCancers=function(id){
     
 }
 
-listCancers('cancerTypesDiv')
+
+if(document.getElementById('cancerTypesDiv')){
+    listCancers('cancerTypesDiv')
+}
+
+getSParcs2014=function(n){
+    if(!n){n=1000}
+    $.getJSON('https://health.data.ny.gov/resource/pzzw-8zdv.json?$limit='+n)
+       .then(function(x){
+             debugger
+      })
+    
+}
+
